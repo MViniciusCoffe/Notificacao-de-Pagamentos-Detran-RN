@@ -1,13 +1,11 @@
-import sys
+import configparser
 import os
+
 
 pasta_relativa_programa = '..'
 
 app_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), pasta_relativa_programa))
 classes_dir = os.path.join(app_dir, 'Classes')
-
-import configparser
-import os
 
 from classes import *
 

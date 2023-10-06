@@ -79,6 +79,7 @@ class Auto:
         except Exception:
             if self.driver:
                 self.driver.quit()
+                
             return False
 
 

@@ -44,6 +44,7 @@ def update_lista_veiculo(lista_veiculo, input_placa, input_renavam):
     config.read(r'Configurações\config.ini')
 
     pasta_database = config.get('Database', 'pasta', fallback=r'Banco de dados\informações licenciamento dos transportes.xlsx')
+
     if not pasta_database:
         return False
     
@@ -59,9 +60,9 @@ def update_lista_veiculo(lista_veiculo, input_placa, input_renavam):
     except KeyError as e:
         veiculos = []
         messagebox.showerror('ERRO', f'A Coluna {e} não foi encontrada na base de dados')
-    except Exception:
+    except Exception as e:
         veiculos = []
-        messagebox.showerror('ERRO', 'Houve um erro na hora de atualizar o banco de dados')
+        messagebox.showerror('ERRO', f'Houve um erro na hora de atualizar o banco de dados\n{e}')
     
     Veiculo.get_veiculos(data)
     
@@ -96,9 +97,9 @@ def run_app(input_placa, input_renavam):
             if auto.preencher_site(placa, renavam) == 404:
                 messagebox.showerror('Erro', 'Houve um erro na hora de automatizar, verifique se o veículo realmente existe ou se o site mudou de endereço.')
         else:
-            messagebox.showerror('Erro', 'Não foi possível iniciar o navegador.')
+            messagebox.showerror('Erro', 'Não foi possível iniciar o navegador, verifique se o edge webdriver x64 está atualizado.')
     else:
-        messagebox.showerror('ERRO', 'Por favor, preencha as informações de placas.')
+        messagebox.showerror('ERRO', 'Por favor, preencha as informações de veículos.')
 
 
 def abrir_config_gui():
@@ -108,9 +109,12 @@ def abrir_config_gui():
 
 
 def abrir_gui_app():
+    ct.set_appearance_mode('dark')
+    
     principal = ct.CTk()
     principal.geometry('350x575')
     principal.title("Meu Programa Principal")
+
 
     lista_veiculo = CTkListbox(principal)
     input_placa = ct.CTkEntry(principal)
