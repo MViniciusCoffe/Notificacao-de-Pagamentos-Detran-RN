@@ -45,7 +45,7 @@ class ModeloNotif:
         
         self.icone = config.get('Icone',
                                 'padrao4',
-                                fallback=r'Banco de dados\logo.ico'
+                                fallback=r'Banco de dados\logo.png'
                                 )
 
         self.programar_hora = config.getboolean('Programar_hora',

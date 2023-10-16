@@ -1,14 +1,6 @@
 import configparser
 import os
 
-
-pasta_relativa_programa = '..'
-
-app_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), pasta_relativa_programa))
-classes_dir = os.path.join(app_dir, 'Classes')
-
-from classes import *
-
 class ConfigGerais:
     def __init__(self):
         self.programar_hora = False
@@ -28,13 +20,13 @@ class ConfigGerais:
         config.set('Titulo', 'padrao1', 'Brasil Paraiba Mine')
 
         config.add_section('Mensagem')
-        config.set('Mensagem', 'padrao2', 'Notificação de pagamento de veículo, clique em mim para saber se o pagamento está em dia')
+        config.set('Mensagem', 'padrao2', 'Clique em mim para saber se o pagamento está em dia')
 
         config.add_section('Programar_hora')
         config.set('Programar_hora', 'padrao3', str(self.programar_hora))
 
         config.add_section('Icone')
-        pasta_icone = r'Banco de dados\logo.ico'
+        pasta_icone = r'Banco de dados\logo.png'
         config.set('Icone', 'padrao4', pasta_icone)
 
         config.add_section('Hora_notif')
@@ -46,5 +38,4 @@ class ConfigGerais:
 
         with open(config_file, 'w') as configfile:
             config.write(configfile)
-
     

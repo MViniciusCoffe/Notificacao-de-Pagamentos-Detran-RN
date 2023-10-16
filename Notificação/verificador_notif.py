@@ -10,9 +10,8 @@ sys.path.append(interface_dir)
 
 from time import sleep
 
-from controle_notif import *
-from modelo_notif import *
-from mostrar_notif import *
+from controle_notif import ControleNotif
+from modelo_notif import ModeloNotif
 
 
 def checar_e_notificar():

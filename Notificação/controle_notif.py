@@ -1,4 +1,4 @@
-from mostrar_notif import *
+from mostrar_notif import VerNotif
 from modelo_notif import ModeloNotif
 
 modelo = ModeloNotif()
