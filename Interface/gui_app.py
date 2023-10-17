@@ -18,9 +18,27 @@ cg = ConfigGerais()
 config_arquivo = join(parent_dir, 'Configurações', 'config.ini')
 
 def selecionar_pasta():
+    config = configparser.ConfigParser()
+    config.read(config_arquivo)
+    caminho_bd = config.get('Database', 'pasta', fallback='')
+
+    if not exists(caminho_bd) or '.xlsx' not in caminho_bd:
+        caminho_bd = filedialog.askopenfilename()
+
+        if not exists(config_arquivo):
+            cg.salvar_config(False, '8:30')
+
+        if caminho_bd:
+            config = configparser.ConfigParser()
+            config.read(config_arquivo)
+            config.set('Database', 'pasta', caminho_bd)
+
+            with open(config_arquivo, 'w') as configfile:
+                config.write(configfile)
+    return caminho_bd
+
+def selecionar_novo_bd():
     caminho_bd = filedialog.askopenfilename()
-    if not exists(config_arquivo):
-        cg.salvar_config(False, '8:30')
     if caminho_bd:
         config = configparser.ConfigParser()
         config.read(config_arquivo)
@@ -31,11 +49,7 @@ def selecionar_pasta():
     return caminho_bd
 
 def update_lista_veiculo(lista_veiculo, input_placa, input_renavam):
-    config = configparser.ConfigParser()
-    config.read(config_arquivo)
-    pasta_database = config.get('Database', 'pasta', fallback='')
-    while pasta_database == '' or '.xlsx' not in pasta_database:
-        pasta_database = selecionar_pasta()
+    pasta_database = selecionar_pasta()
 
     while lista_veiculo.size() > 0:
         lista_veiculo.delete(0)
@@ -49,6 +63,7 @@ def update_lista_veiculo(lista_veiculo, input_placa, input_renavam):
         messagebox.showerror('ERRO', 'ERRO DE PERMISSÃO')
         data = None
     except FileNotFoundError:
+        messagebox.showerror('ERRO', 'Arquivo não encontrado, tente novamente')
         selecionar_pasta()
         data = pd.read_excel(pasta_database, skiprows=1)
     except KeyError as e:
@@ -106,7 +121,7 @@ def run_app(input_placa, input_renavam):
 
 
 def selecionar_pasta_e_atualizar_bd(lista_veiculo, input_placa, input_renavam):
-    selecionar_pasta()
+    selecionar_novo_bd()
     update_lista_veiculo(lista_veiculo, input_placa, input_renavam)
 
 
